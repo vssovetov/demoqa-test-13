@@ -18,17 +18,33 @@ import static com.codeborne.selenide.Selenide.*;
         void successfulTest() {
             String name = "Alex";
 
-            open("/text-box");
+            open("/automation-practice-form");
             executeJavaScript("$('footer').remove()");
             executeJavaScript("$('#fixedban').remove()");
 
-            $("[id=userName]").setValue(name);
+            $("[id=firstName]").setValue(name);
+            $("[id=lastName]").setValue("sovetsky");
             $("[id=userEmail]").setValue("alex@egorov.com");
-            $("[id=currentAddress]").setValue("Some address 1");
-            $("[id=permanentAddress]").setValue("Another address 2");
-            $("[id=submit]").click();
+            $("[class=custom-control-label]").click();
+            $("[id=userNumber]").setValue("9889889888");
+            $("[id=dateOfBirthInput]").setValue("29.10.1992");
 
             $("[id=output]").shouldHave(text(name), text("alex@egorov.com"),
                     text("Some address 1"), text("Another address 2"));
         }
     }
+
+
+    //id="firstName
+//id="lastName"
+//id="userEmail"
+//id="gender-radio-3"
+//id="userNumber"
+//id="dateOfBirthInput"
+// //*[@id="subjectsContainer"]/div/div[1]??????
+//id="hobbies-checkbox-3"
+//id="currentAddress"
+//
+//
+//
+//
