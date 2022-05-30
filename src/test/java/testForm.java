@@ -1,11 +1,9 @@
-
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
-
     public class testForm {
 
         @BeforeAll
@@ -16,35 +14,46 @@ import static com.codeborne.selenide.Selenide.*;
 
         @Test
         void successfulTest() {
-            String name = "Alex";
+                String name = "Alex";
+                String fileName = "att.png";
+                open("/automation-practice-form");
+                executeJavaScript("$('footer').remove()");
+                executeJavaScript("$('#fixedban').remove()");
+//general info
+                $("[id=firstName]").setValue(name);
+                $("[id=lastName]").setValue("sovetsky");
+                $("[id=userEmail]").setValue("alex@egorov.com");
+                $("[for=gender-radio-3]").click();
+                $("[id=userNumber]").setValue("9889889888");
+//datepicker
 
-            open("/automation-practice-form");
-            executeJavaScript("$('footer').remove()");
-            executeJavaScript("$('#fixedban').remove()");
+                $(byId("dateOfBirthInput")).click();
+                $(byCssSelector(".react-datepicker__year-select")).selectOptionByValue("1992");
+                $(byCssSelector(".react-datepicker__month-select")).selectOption("October");
+                $(byCssSelector(".react-datepicker__day--029")).click();
 
-            $("[id=firstName]").setValue(name);
-            $("[id=lastName]").setValue("sovetsky");
-            $("[id=userEmail]").setValue("alex@egorov.com");
-            $("[class=custom-control-label]").click();
-            $("[id=userNumber]").setValue("9889889888");
-            $("[id=dateOfBirthInput]").setValue("29.10.1992");
+//subject
+                $(byId("subjectsInput")).sendKeys("P");
+                $(byText("Physics")).click();
+                $(byId("subjectsInput")).sendKeys("Commerce");
+                $(byId("subjectsInput")).pressEnter();
+// checbox
 
-            $("[id=output]").shouldHave(text(name), text("alex@egorov.com"),
-                    text("Some address 1"), text("Another address 2"));
+                $(".custom-checkbox:nth-child(1) > .custom-control-label").click();
+                $(".custom-checkbox:nth-child(2) > .custom-control-label").click();
+// upload
+                $(byId("uploadPicture")).uploadFromClasspath(fileName);
+
+//curent address
+                $(byId("currentAddress")).sendKeys("curent address");
+//state and city
+                $(byId("state")).scrollTo().click();
+                $(byText("NCR")).click();
+                $(byId("city")).click();
+                $(byId("stateCity-wrapper")).$(byText("Delhi")).click();
+                $(byId("submit")).click();
+
+            }
         }
-    }
 
 
-    //id="firstName
-//id="lastName"
-//id="userEmail"
-//id="gender-radio-3"
-//id="userNumber"
-//id="dateOfBirthInput"
-// //*[@id="subjectsContainer"]/div/div[1]??????
-//id="hobbies-checkbox-3"
-//id="currentAddress"
-//
-//
-//
-//
