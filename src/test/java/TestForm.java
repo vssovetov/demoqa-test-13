@@ -1,3 +1,4 @@
+import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selectors.*;
@@ -13,17 +14,17 @@ import static com.codeborne.selenide.Selenide.*;
                 executeJavaScript("$('footer').remove()");
                 executeJavaScript("$('#fixedban').remove()");
 //general info
-                $("[id=firstName]").setValue(name);
-                $("[id=lastName]").setValue("sovetsky");
-                $("[id=userEmail]").setValue("alex@egorov.com");
-                $("[for=gender-radio-3]").click();
-                $("[id=userNumber]").setValue("9889889888");
+                $("#firstName").setValue(name);
+                $("#lastName").setValue("sovetsky");
+                $("#userEmail").setValue("alex@egorov.com");
+                $("#genterWrapper").$(byText("Other")).click();
+                $("#userNumber").setValue("9889889888");
 //datepicker
 
                 $(byId("dateOfBirthInput")).click();
                 $(byCssSelector(".react-datepicker__year-select")).selectOptionByValue("1992");
                 $(byCssSelector(".react-datepicker__month-select")).selectOption("October");
-                $(byCssSelector(".react-datepicker__day--029")).click();
+                $(".react-datepicker__day--029:not(.react-datepicker__day--outside-month)").click();
 
 //subject
                 $(byId("subjectsInput")).sendKeys("P");
@@ -45,7 +46,12 @@ import static com.codeborne.selenide.Selenide.*;
                 $(byId("city")).click();
                 $(byId("stateCity-wrapper")).$(byText("Delhi")).click();
                 $(byId("submit")).click();
-
+                $("#example-modal-sizes-title-lg").shouldHave(Condition.text("Thanks for submitting the form"));
+                checkTable("Date of Birth", "29 October,1992");
+            }
+            void checkTable(String key,String value){
+                $(".table-responsive").$(byText(key))
+                        .parent().shouldHave(Condition.text(value));
             }
         }
 
