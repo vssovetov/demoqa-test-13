@@ -88,4 +88,9 @@ public class RegistrationFormPage {
                  .parent().shouldHave(Condition.text(value));
         return this;
     }
+    public RegistrationFormPage checkFirstSecondName(String key,String value){
+            $(".table-responsive").$(byText(key))
+                 .parent().shouldHave(Condition.text(value));
+        return this;
+    }
 }
